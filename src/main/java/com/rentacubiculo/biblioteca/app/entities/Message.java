@@ -30,14 +30,13 @@ public class Message implements Serializable{
     private String messageText;
     
     @ManyToOne
-    @JoinColumn(name="id_client")
-    @JsonIgnoreProperties("messages")
-    private Client client;
+    @JoinColumn(name="library_id")
+    @JsonIgnoreProperties({"reservations", "messages"})
+    private Library lib;
     
     @ManyToOne
-    @JoinColumn(name="library_id")
-    @JsonIgnoreProperties("messages")
-    private Library library;
-    
+    @JoinColumn(name="id_client")
+    @JsonIgnoreProperties({"reservations", "messages"})
+    private Client client;
 }
 

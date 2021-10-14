@@ -41,6 +41,6 @@ public class Category implements Serializable{
     
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "category")
     @JsonIgnoreProperties("category")
-    List<Library> libraries;
+    List<Library> libs;
     
 }

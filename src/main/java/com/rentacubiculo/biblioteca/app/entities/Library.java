@@ -39,15 +39,15 @@ public class Library implements Serializable {
     
     @ManyToOne
     @JoinColumn(name="category_id")
-    @JsonIgnoreProperties("libraries")
+    @JsonIgnoreProperties("libs")
     private Category category;
     
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "library")
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "lib")
     @JsonIgnoreProperties("messages")
     List<Message> messages;
     
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "library")
-    @JsonIgnoreProperties("reservation")
-    List<Reservation> reservation;
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "lib")
+    @JsonIgnoreProperties("reservations")
+    List<Reservation> reservations;
     
 }

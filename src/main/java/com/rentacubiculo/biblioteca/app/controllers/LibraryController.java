@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("Library")
+@RequestMapping("Lib")
 public class LibraryController {
     
     @Autowired

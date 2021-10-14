@@ -18,11 +18,15 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.Calendar;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author unPandicornio
  */
+
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,17 +37,23 @@ public class Reservation implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idReservation;
     //@Column(length=250)
-    private String startDate;
-    private String devolutionDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar startDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar devolutionDate;
     
-    @ManyToOne
-    @JoinColumn(name="id_client")
-    @JsonIgnoreProperties({"reservation", "messages"})
-    private Client client;
+    private boolean status;
     
     @ManyToOne
     @JoinColumn(name="library_id")
-    @JsonIgnoreProperties({"reservation", "messages"})
-    private Library library;
+    @JsonIgnoreProperties({"reservations", "lib"})
+    private Library lib;
+    
+    @ManyToOne
+    @JoinColumn(name="id_client")
+    @JsonIgnoreProperties({"reservations", "messages"})
+    private Client client;
+    
+    private boolean score;
     
 }
