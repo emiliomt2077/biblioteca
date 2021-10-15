@@ -19,6 +19,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Calendar;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -42,18 +44,21 @@ public class Reservation implements Serializable{
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar devolutionDate;
     
-    private boolean status;
+    private String status="created";
     
     @ManyToOne
-    @JoinColumn(name="library_id")
+    @JoinColumn(name="id")
     @JsonIgnoreProperties({"reservations", "lib"})
     private Library lib;
     
     @ManyToOne
-    @JoinColumn(name="id_client")
+    @JoinColumn(name="idClient")
     @JsonIgnoreProperties({"reservations", "messages"})
     private Client client;
     
-    private boolean score;
+    private String score="None";
+    //@OneToOne(cascade = {CascadeType.REMOVE},mappedBy="reservation")
+    //@JsonIgnoreProperties("reservation")
+    //private Score score;
     
 }
