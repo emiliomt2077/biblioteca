@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class Message implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idMessage;
+    private Integer idMessage;
     @Column(length=250)
     private String messageText;
     

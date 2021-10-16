@@ -5,10 +5,14 @@
  */
 package com.rentacubiculo.biblioteca.app.repositories.crud;
 
+
+import com.rentacubiculo.biblioteca.app.entities.Score;
+import org.springframework.data.repository.CrudRepository;
+
 /**
  *
  * @author unPandicornio
  */
-public interface ScoreCrudRepository {
+public interface ScoreCrudRepository extends CrudRepository<Score,Integer> {
     
 }

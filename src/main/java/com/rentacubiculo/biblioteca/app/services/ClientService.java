@@ -12,6 +12,7 @@ package com.rentacubiculo.biblioteca.app.services;
 import com.rentacubiculo.biblioteca.app.entities.Client;
 import com.rentacubiculo.biblioteca.app.repositories.ClientRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,28 +22,59 @@ public class ClientService {
     private ClientRepository repository;
     
     //Consultar Todos los registros.
-    public List<Client> getClients(){
-        return repository.findAll();
+    public List<Client> getAll(){
+        return repository.getAll();
+    }
+    
+    //Buscar registro
+    public Optional<Client> getClient(int clientId) {
+        return repository.getClient(clientId);
     }
     
     //Registrar 
-    public Client saveClient(Client client){
-        return repository.save(client);
+    public Client save(Client client){
+        if(client.getIdClient()==null){
+            return repository.save(client);
+        }else{
+            Optional<Client> resultado = repository.getClient(client.getIdClient());
+            if(resultado.isPresent()){
+                return client;
+            }else{
+                return repository.save(client);
+            }
+        }
     }
     
     //Actualizar
-    public Client updateClient(Client client){
-        Client existingClient = repository.findById(client.getIdClient()).orElse(null);
-        existingClient.setName(client.getName());
-        existingClient.setEmail(client.getEmail());
-        existingClient.setAge(client.getAge());
-        existingClient.setPassword(client.getPassword());
-        return repository.save(existingClient);
+    public Client update(Client client){
+        if(client.getIdClient()!=null){
+            Optional<Client> resultado = repository.getClient(client.getIdClient());
+            if(resultado.isPresent()){
+                if(client.getName()!=null){
+                    resultado.get().setName(client.getName());
+                }
+                if(client.getAge()!=null){
+                    resultado.get().setAge(client.getAge());
+                }
+                if(client.getPassword()!=null){
+                    resultado.get().setPassword(client.getPassword());
+                }
+                repository.save(resultado.get());
+                return resultado.get();
+            }else{
+                return client;
+            }
+        }else{
+            return client;
+        }
     }
     
     //Eliminar
-    public String deleteClient(int id){
-        repository.deleteById(id);
-        return "Cliente removido " + id;
+    public boolean delete(int id){
+        Boolean aBoolean = getClient(id).map(client -> {
+           repository.delete(client);
+           return true;
+        }).orElse(false);
+        return aBoolean;
     } 
 }

@@ -5,10 +5,15 @@
  */
 package com.rentacubiculo.biblioteca.app.repositories.crud;
 
+
+
+import com.rentacubiculo.biblioteca.app.entities.Message;
+import org.springframework.data.repository.CrudRepository;
+
 /**
  *
  * @author unPandicornio
  */
-public interface MessageCrudRepository {
+public interface MessageCrudRepository extends CrudRepository<Message,Integer> {
     
 }

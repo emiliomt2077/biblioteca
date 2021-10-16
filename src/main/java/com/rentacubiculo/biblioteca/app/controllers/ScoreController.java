@@ -5,9 +5,8 @@
  */
 package com.rentacubiculo.biblioteca.app.controllers;
 
-
-import com.rentacubiculo.biblioteca.app.entities.Message;
-import com.rentacubiculo.biblioteca.app.services.MessageService;
+import com.rentacubiculo.biblioteca.app.entities.Score;
+import com.rentacubiculo.biblioteca.app.services.ScoreService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,56 +28,56 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("Message")
-public class MessageController {
+@RequestMapping("Score")
+public class ScoreController {
     /**
      *
      */
     @Autowired
-    private MessageService service;
+    private ScoreService service;
     
     /**
      * GET
      * @return 
      */
     @GetMapping("/all")
-    public List<Message> getMessages(){
+    public List<Score> getScores(){
         return service.getAll();
     }
     
     /**
      *
-     * @param message
+     * @param score
      * @return
      */
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Message save (@RequestBody Message message){
-        return service.save(message);
+    public Score save (@RequestBody Score score){
+        return service.save(score);
     }
     
     /**
      *
-     * @param message
+     * @param score
      * @return
      */
     
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Message update(@RequestBody Message message){
-        return service.update(message);
+    public Score update(@RequestBody Score score){
+        return service.update(score);
     }
     
     /**
      *
-     * @param messageId
+     * @param scoreId
      * @return
      */
     
     @DeleteMapping("/{id}")
     //@ResponseStatus(HttpStatus.CREATED)
-    public boolean delete(@PathVariable("id") int messageId) {
-        return service.delete(messageId);
+    public boolean delete(@PathVariable("id") int scoreId) {
+        return service.delete(scoreId);
     }
     
 }

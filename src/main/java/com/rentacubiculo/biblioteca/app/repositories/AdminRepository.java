@@ -5,8 +5,8 @@
  */
 package com.rentacubiculo.biblioteca.app.repositories;
 
-import com.rentacubiculo.biblioteca.app.entities.Category;
-import com.rentacubiculo.biblioteca.app.repositories.crud.CategoryCrudRepository;
+import com.rentacubiculo.biblioteca.app.entities.Admin;
+import com.rentacubiculo.biblioteca.app.repositories.crud.AdminCrudRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,47 +16,42 @@ import org.springframework.stereotype.Repository;
  *
  * @author unPandicornio
  */
+
 @Repository
-public class CategoryRepository {
+public class AdminRepository {
     
     @Autowired
-    private CategoryCrudRepository repository;
+    private AdminCrudRepository repository;
     
     /**
      * Consultar
      * @return 
     */
-    public List<Category> getAll(){
-        return (List<Category>) repository.findAll();
+    public List<Admin> getAll(){
+        return (List<Admin>) repository.findAll();
     }
     
-    /**
-     * Buscar registro por Id
-     * @param id
-     * @return 
-     */
-    
-    public Optional<Category> getCategory(int id){
+    //Buscar registro por Id
+    public Optional<Admin> getAdmin(int id){
         return repository.findById(id);
     }
     
     /**
      * Registrar
-     * @param category
+     * @param admin
      * @return 
      */
-    public Category save(Category category){
-        return repository.save(category);
+    public Admin save(Admin admin){
+        return repository.save(admin);
     }
     
     /**
      * Eliminar
-     * @param category
+     * @param admin
      */
-    public void delete(Category category){
-        repository.delete(category);
+    public void delete(Admin admin){
+        repository.delete(admin);
     }
     
+    
 }
-
-

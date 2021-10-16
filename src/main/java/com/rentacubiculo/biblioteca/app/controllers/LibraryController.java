@@ -5,50 +5,82 @@
  */
 package com.rentacubiculo.biblioteca.app.controllers;
 
-/**
- *
- * @author unPandicornio
- */
 import com.rentacubiculo.biblioteca.app.entities.Library;
 import com.rentacubiculo.biblioteca.app.services.LibraryService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+/**
+ *
+ * @author unPandicornio
+ */
 
 
 
 @RestController
 @RequestMapping("Lib")
 public class LibraryController {
-    
+    /**
+     *
+     */
     @Autowired
     private LibraryService service;
     
+    /**
+     * GET
+     * @return 
+     */
     @GetMapping("/all")
-    public List<Library> findAllLibrary(){
-        return service.getLibraries();
+    public List<Library> getLibraries(){
+        return service.getAll();
     }
     
+    /**
+     *
+     * @param library
+     * @return
+     */
     @PostMapping("/save")
-    public ResponseEntity addLibrary(@RequestBody Library library){
-        service.saveLibrary(library);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @ResponseStatus(HttpStatus.CREATED)
+    public Library save (@RequestBody Library library){
+        return service.save(library);
     }
+    
+    /**
+     *
+     * @param library
+     * @return
+     */
     
     @PutMapping("/update")
-    public ResponseEntity updateLibrary(@RequestBody Library library){
-        service.updateLibrary(library);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @ResponseStatus(HttpStatus.CREATED)
+    public Library update(@RequestBody Library library){
+        return service.update(library);
     }
     
- 
+    /**
+     *
+     * @param libraryId
+     * @return
+     */
+    
+    @DeleteMapping("/{id}")
+    //@ResponseStatus(HttpStatus.CREATED)
+    public boolean delete(@PathVariable("id") int libraryId) {
+        return service.delete(libraryId);
+    }
+    
 }
+
 
 

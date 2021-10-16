@@ -5,10 +5,14 @@
  */
 package com.rentacubiculo.biblioteca.app.repositories.crud;
 
+
+import com.rentacubiculo.biblioteca.app.entities.Reservation;
+import org.springframework.data.repository.CrudRepository;
+
 /**
  *
  * @author unPandicornio
  */
-public interface ReservationCrudRepository {
+public interface ReservationCrudRepository extends CrudRepository<Reservation,Integer> {
     
 }

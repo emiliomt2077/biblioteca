@@ -5,53 +5,76 @@
  */
 package com.rentacubiculo.biblioteca.app.services;
 
+
+
 /**
  *
  * @author unPandicornio
  */
-
 import com.rentacubiculo.biblioteca.app.entities.Category;
 import com.rentacubiculo.biblioteca.app.repositories.CategoryRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryService {
-    
-    
     @Autowired
     private CategoryRepository repository;
     
-    //Consultar Todos los registros. GET
-    public List<Category> getCategories(){
-        return repository.findAll();
+    //Consultar Todos los registros.
+    public List<Category> getAll(){
+        return repository.getAll();
     }
     
-    //Registrar  PUT
-    public Category saveCategory(Category category){
-        return repository.save(category);
+    //Buscar registro
+    public Optional<Category> getCategory(int categoryId) {
+        return repository.getCategory(categoryId);
     }
     
-    //Actualizar POST
-    public Category updateCategory(Category category){
-        Category existingCategory = repository.findById(category.getId()).orElse(null);
-        existingCategory.setName(category.getName());
-        existingCategory.setDescription(category.getDescription());
-        return repository.save(existingCategory);
+    //Registrar 
+    public Category save(Category category){
+        if(category.getId()==null){
+            return repository.save(category);
+        }else{
+            Optional<Category> resultado = repository.getCategory(category.getId());
+            if(resultado.isPresent()){
+                return category;
+            }else{
+                return repository.save(category);
+            }
+        }
     }
     
-    //Eliminar DELETE
-    public String deleteCategory(int id){
-        repository.deleteById(id);
-        return "Categoria removida " + id;
-    }
-    
-    //Busquedas por fuera del CRUD implementads en Repositories
-    
-    //Buscar por ID  ya viene en el repositorio
-    public Category getCategoryById(int id){
-        return repository.findById(id).orElse(null);
-    }
 
+    //Actualizar
+    public Category update(Category category){
+        if(category.getId()!=null){
+            Optional<Category> resultado = repository.getCategory(category.getId());
+            if(resultado.isPresent()){
+                if(category.getName()!=null){
+                    resultado.get().setName(category.getName());
+                }
+                if(category.getDescription()!=null){
+                    resultado.get().setDescription(category.getDescription());
+                }          
+                repository.save(resultado.get());
+                return resultado.get();
+            }else{
+                return category;
+            }
+        }else{
+            return category;
+        }
+    }
+    
+    //Eliminar
+    public boolean delete(int id){
+        Boolean aBoolean = getCategory(id).map(category -> {
+           repository.delete(category);
+           return true;
+        }).orElse(false);
+        return aBoolean;
+    } 
 }

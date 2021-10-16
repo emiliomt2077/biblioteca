@@ -37,7 +37,7 @@ import javax.persistence.Temporal;
 public class Reservation implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idReservation;
+    private Integer idReservation;
     //@Column(length=250)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar startDate;

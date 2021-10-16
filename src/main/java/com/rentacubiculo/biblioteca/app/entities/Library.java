@@ -27,12 +27,12 @@ public class Library implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(length=45)
     private String name;
     @Column(length=45)
     private String target;
-    private int capacity;
+    private Integer capacity;
     @Column(length=250)
     private String description;
     

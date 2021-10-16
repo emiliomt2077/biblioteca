@@ -5,9 +5,8 @@
  */
 package com.rentacubiculo.biblioteca.app.controllers;
 
-
-import com.rentacubiculo.biblioteca.app.entities.Message;
-import com.rentacubiculo.biblioteca.app.services.MessageService;
+import com.rentacubiculo.biblioteca.app.entities.Admin;
+import com.rentacubiculo.biblioteca.app.services.AdminService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,56 +28,56 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("Message")
-public class MessageController {
+@RequestMapping("Admin")
+public class AdminController {
     /**
      *
      */
     @Autowired
-    private MessageService service;
+    private AdminService service;
     
     /**
      * GET
      * @return 
      */
     @GetMapping("/all")
-    public List<Message> getMessages(){
+    public List<Admin> getAdmins(){
         return service.getAll();
     }
     
     /**
      *
-     * @param message
+     * @param admin
      * @return
      */
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Message save (@RequestBody Message message){
-        return service.save(message);
+    public Admin save (@RequestBody Admin admin){
+        return service.save(admin);
     }
     
     /**
      *
-     * @param message
+     * @param admin
      * @return
      */
     
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Message update(@RequestBody Message message){
-        return service.update(message);
+    public Admin update(@RequestBody Admin admin){
+        return service.update(admin);
     }
     
     /**
      *
-     * @param messageId
+     * @param adminId
      * @return
      */
     
     @DeleteMapping("/{id}")
     //@ResponseStatus(HttpStatus.CREATED)
-    public boolean delete(@PathVariable("id") int messageId) {
-        return service.delete(messageId);
+    public boolean delete(@PathVariable("id") int adminId) {
+        return service.delete(adminId);
     }
     
 }

@@ -5,55 +5,79 @@
  */
 package com.rentacubiculo.biblioteca.app.services;
 
+
 /**
  *
  * @author unPandicornio
  */
-
-
 import com.rentacubiculo.biblioteca.app.entities.Reservation;
 import com.rentacubiculo.biblioteca.app.repositories.ReservationRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ReservationService {
-    
     @Autowired
     private ReservationRepository repository;
     
-    //Consultar Todos los registros. GET
-    public List<Reservation> getReservations(){
-        return repository.findAll();
+    //Consultar Todos los registros.
+    public List<Reservation> getAll(){
+        return repository.getAll();
     }
     
-    //Registrar  PUT
-    public Reservation saveReservation(Reservation reservation){
-        return repository.save(reservation);
+    //Buscar registro
+    public Optional<Reservation> getReservation(int reservationId) {
+        return repository.getReservation(reservationId);
     }
     
-    //Actualizar POST
-    public Reservation updateReservation(Reservation reservation){
-        Reservation existingReservation = repository.findById(reservation.getIdReservation()).orElse(null);
-        existingReservation.setStartDate(reservation.getStartDate());
-        existingReservation.setDevolutionDate(reservation.getDevolutionDate());
-        existingReservation.setLib(reservation.getLib());
-        existingReservation.setClient(reservation.getClient());
-        return repository.save(existingReservation);
+    //Registrar 
+    public Reservation save(Reservation reservation){
+        if(reservation.getIdReservation()==null){
+            return repository.save(reservation);
+        }else{
+            Optional<Reservation> resultado = repository.getReservation(reservation.getIdReservation());
+            if(resultado.isPresent()){
+                return reservation;
+            }else{
+                return repository.save(reservation);
+            }
+        }
+    }
+    //Actualizar
+    public Reservation update(Reservation reservation){
+        if(reservation.getIdReservation()!=null){
+            Optional<Reservation> resultado = repository.getReservation(reservation.getIdReservation());
+            if(resultado.isPresent()){
+                if(reservation.getStartDate()!=null){
+                    resultado.get().setStartDate(reservation.getStartDate());
+                }
+                if(reservation.getDevolutionDate()!=null){
+                    resultado.get().setDevolutionDate(reservation.getDevolutionDate());
+                }
+                if(reservation.getLib()!=null){
+                    resultado.get().setLib(reservation.getLib());
+                }
+                if(reservation.getClient()!=null){
+                    resultado.get().setClient(reservation.getClient());
+                }
+                repository.save(resultado.get());
+                return resultado.get();
+            }else{
+                return reservation;
+            }
+        }else{
+            return reservation;
+        }
     }
     
-    //Eliminar DELETE
-    public String deleteReservation(int id){
-        repository.deleteById(id);
-        return "Reservacion removida " + id;
-    }
-    
-    //Busquedas por fuera del CRUD implementads en Repositories
-    
-    //Buscar por ID  ya viene en el repositorio
-    public Reservation getReservationById(int id){
-        return repository.findById(id).orElse(null);
-    }
-
+    //Eliminar
+    public boolean delete(int id){
+        Boolean aBoolean = getReservation(id).map(reservation -> {
+           repository.delete(reservation);
+           return true;
+        }).orElse(false);
+        return aBoolean;
+    } 
 }

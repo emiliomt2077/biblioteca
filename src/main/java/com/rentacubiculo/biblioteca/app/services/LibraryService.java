@@ -5,6 +5,7 @@
  */
 package com.rentacubiculo.biblioteca.app.services;
 
+
 /**
  *
  * @author unPandicornio
@@ -12,53 +13,75 @@ package com.rentacubiculo.biblioteca.app.services;
 import com.rentacubiculo.biblioteca.app.entities.Library;
 import com.rentacubiculo.biblioteca.app.repositories.LibraryRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LibraryService {
-    
-    
     @Autowired
     private LibraryRepository repository;
     
-    //Consultar Todos los registros. GET
-    public List<Library> getLibraries(){
-        return repository.findAll();
+    //Consultar Todos los registros.
+    public List<Library> getAll(){
+        return repository.getAll();
     }
     
-    //Registrar  PUT
-    public Library saveLibrary(Library library){
-        return repository.save(library);
+    //Buscar registro
+    public Optional<Library> getLibrary(int libraryId) {
+        return repository.getLibrary(libraryId);
     }
     
-    //Actualizar POST
-    public Library updateLibrary(Library library){
-        Library existingLibrary = repository.findById(library.getId()).orElse(null);
-        existingLibrary.setName(library.getName());
-        existingLibrary.setTarget(library.getTarget());
-        existingLibrary.setCapacity(library.getCapacity());
-        existingLibrary.setDescription(library.getDescription());
-        existingLibrary.setCategory(library.getCategory());
-        return repository.save(existingLibrary);
-    }
-    
-    //Eliminar DELETE
-    public String deleteLibrary(int id){
-        repository.deleteById(id);
-        return "Cubiculo removido " + id;
-    }
-    
-    //Busquedas por fuera del CRUD implementads en Repositories
-    //Busqueda por nombre
-    public Library getLibraryByName(String name){
-        return repository.findByName(name);
-    }
-    
-    //Buscar por ID  ya viene en el repositorio
-    public Library getLibraryById(int id){
-        return repository.findById(id).orElse(null);
+    //Registrar 
+    public Library save(Library library){
+        if(library.getId()==null){
+            return repository.save(library);
+        }else{
+            Optional<Library> resultado = repository.getLibrary(library.getId());
+            if(resultado.isPresent()){
+                return library;
+            }else{
+                return repository.save(library);
+            }
+        }
     }
 
+    //Actualizar
+    public Library update(Library library){
+        if(library.getId()!=null){
+            Optional<Library> resultado = repository.getLibrary(library.getId());
+            if(resultado.isPresent()){
+                if(library.getName()!=null){
+                    resultado.get().setName(library.getName());
+                }
+                if(library.getTarget()!=null){
+                    resultado.get().setTarget(library.getTarget());
+                }
+                if(library.getCapacity()!=null){
+                    resultado.get().setCapacity(library.getCapacity());
+                }
+                if(library.getDescription()!=null){
+                    resultado.get().setDescription(library.getDescription());
+                }
+                if(library.getCategory()!=null){
+                    resultado.get().setCategory(library.getCategory());
+                }
+                repository.save(resultado.get());
+                return resultado.get();
+            }else{
+                return library;
+            }
+        }else{
+            return library;
+        }
+    }
+    
+    //Eliminar
+    public boolean delete(int id){
+        Boolean aBoolean = getLibrary(id).map(library -> {
+           repository.delete(library);
+           return true;
+        }).orElse(false);
+        return aBoolean;
+    } 
 }
-
