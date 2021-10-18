@@ -49,7 +49,7 @@ public class CategoryController {
      *
      * @param category
      */
-    @PostMapping("/save")
+    @PostMapping("/all")
     @ResponseStatus(HttpStatus.CREATED)
     public void save (@RequestBody Category category){
        service.save(category);
