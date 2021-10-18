@@ -73,7 +73,7 @@ public class LibraryController {
      */
     
     @DeleteMapping("/{id}")
-    //@ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") int libraryId) {
         service.delete(libraryId);
     }
