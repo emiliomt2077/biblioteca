@@ -48,7 +48,6 @@ public class ClientController {
     /**
      *
      * @param client
-     * @return
      */
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
@@ -62,7 +61,7 @@ public class ClientController {
      */
     
     @PutMapping("/update")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public void update(@RequestBody Client client){
         service.update(client);
     }
@@ -73,7 +72,7 @@ public class ClientController {
      */
     
     @DeleteMapping("/{id}")
-    //@ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public void delete(@PathVariable("id") int clientId) {
         service.delete(clientId);
     }
