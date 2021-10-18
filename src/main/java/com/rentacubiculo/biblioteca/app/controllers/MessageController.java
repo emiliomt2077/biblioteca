@@ -53,32 +53,30 @@ public class MessageController {
      */
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Message save (@RequestBody Message message){
-        return service.save(message);
+    public void save (@RequestBody Message message){
+         service.save(message);
     }
     
     /**
      *
      * @param message
-     * @return
      */
     
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Message update(@RequestBody Message message){
-        return service.update(message);
+    public void update(@RequestBody Message message){
+        service.update(message);
     }
     
     /**
      *
      * @param messageId
-     * @return
      */
     
     @DeleteMapping("/{id}")
     //@ResponseStatus(HttpStatus.CREATED)
-    public boolean delete(@PathVariable("id") int messageId) {
-        return service.delete(messageId);
+    public void delete(@PathVariable("id") int messageId) {
+        service.delete(messageId);
     }
     
 }

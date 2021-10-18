@@ -52,32 +52,30 @@ public class LibraryController {
      */
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Library save (@RequestBody Library library){
-        return service.save(library);
+    public void save (@RequestBody Library library){
+        service.save(library);
     }
     
     /**
      *
      * @param library
-     * @return
      */
     
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Library update(@RequestBody Library library){
-        return service.update(library);
+    public void update(@RequestBody Library library){
+         service.update(library);
     }
     
     /**
      *
      * @param libraryId
-     * @return
      */
     
     @DeleteMapping("/{id}")
     //@ResponseStatus(HttpStatus.CREATED)
-    public boolean delete(@PathVariable("id") int libraryId) {
-        return service.delete(libraryId);
+    public void delete(@PathVariable("id") int libraryId) {
+        service.delete(libraryId);
     }
     
 }

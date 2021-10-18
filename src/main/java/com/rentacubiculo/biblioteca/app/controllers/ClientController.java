@@ -52,32 +52,30 @@ public class ClientController {
      */
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Client save (@RequestBody Client client){
-        return service.save(client);
+    public void save (@RequestBody Client client){
+        service.save(client);
     }
     
     /**
      *
      * @param client
-     * @return
      */
     
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Client update(@RequestBody Client client){
-        return service.update(client);
+    public void update(@RequestBody Client client){
+        service.update(client);
     }
     
     /**
      *
      * @param clientId
-     * @return
      */
     
     @DeleteMapping("/{id}")
     //@ResponseStatus(HttpStatus.CREATED)
-    public boolean delete(@PathVariable("id") int clientId) {
-        return service.delete(clientId);
+    public void delete(@PathVariable("id") int clientId) {
+        service.delete(clientId);
     }
     
 }

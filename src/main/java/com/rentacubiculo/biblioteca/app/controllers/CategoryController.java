@@ -48,36 +48,33 @@ public class CategoryController {
     /**
      *
      * @param category
-     * @return
      */
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Category save (@RequestBody Category category){
-        return service.save(category);
+    public void save (@RequestBody Category category){
+       service.save(category);
     }
     
     /**
      *
      * @param category
-     * @return
      */
     
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Category update(@RequestBody Category category){
-        return service.update(category);
+    public void update(@RequestBody Category category){
+         service.update(category);
     }
     
     /**
      *
      * @param categoryId
-     * @return
      */
     
     @DeleteMapping("/{id}")
     //@ResponseStatus(HttpStatus.CREATED)
-    public boolean delete(@PathVariable("id") int categoryId) {
-        return service.delete(categoryId);
+    public void delete(@PathVariable("id") int categoryId) {
+         service.delete(categoryId);
     }
     
 }

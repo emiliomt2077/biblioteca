@@ -52,32 +52,30 @@ public class ReservationController {
      */
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Reservation save (@RequestBody Reservation reservation){
-        return service.save(reservation);
+    public void save (@RequestBody Reservation reservation){
+        service.save(reservation);
     }
     
     /**
      *
      * @param reservation
-     * @return
      */
     
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Reservation update(@RequestBody Reservation reservation){
-        return service.update(reservation);
+    public void update(@RequestBody Reservation reservation){
+        service.update(reservation);
     }
     
     /**
      *
      * @param reservationId
-     * @return
      */
     
     @DeleteMapping("/{id}")
     //@ResponseStatus(HttpStatus.CREATED)
-    public boolean delete(@PathVariable("id") int reservationId) {
-        return service.delete(reservationId);
+    public void delete(@PathVariable("id") int reservationId) {
+        service.delete(reservationId);
     }
     
 }

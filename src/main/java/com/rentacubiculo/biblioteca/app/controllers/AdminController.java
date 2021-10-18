@@ -52,32 +52,30 @@ public class AdminController {
      */
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Admin save (@RequestBody Admin admin){
-        return service.save(admin);
+    public void save (@RequestBody Admin admin){
+         service.save(admin);
     }
     
     /**
      *
      * @param admin
-     * @return
      */
     
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Admin update(@RequestBody Admin admin){
-        return service.update(admin);
+    public void update(@RequestBody Admin admin){
+         service.update(admin);
     }
     
     /**
      *
      * @param adminId
-     * @return
      */
     
     @DeleteMapping("/{id}")
     //@ResponseStatus(HttpStatus.CREATED)
-    public boolean delete(@PathVariable("id") int adminId) {
-        return service.delete(adminId);
+    public void delete(@PathVariable("id") int adminId) {
+         service.delete(adminId);
     }
     
 }

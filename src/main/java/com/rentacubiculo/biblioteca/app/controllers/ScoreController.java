@@ -52,32 +52,30 @@ public class ScoreController {
      */
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Score save (@RequestBody Score score){
-        return service.save(score);
+    public void save (@RequestBody Score score){
+        service.save(score);
     }
     
     /**
      *
      * @param score
-     * @return
      */
     
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Score update(@RequestBody Score score){
-        return service.update(score);
+    public void update(@RequestBody Score score){
+        service.update(score);
     }
     
     /**
      *
      * @param scoreId
-     * @return
      */
     
     @DeleteMapping("/{id}")
     //@ResponseStatus(HttpStatus.CREATED)
-    public boolean delete(@PathVariable("id") int scoreId) {
-        return service.delete(scoreId);
+    public void delete(@PathVariable("id") int scoreId) {
+        service.delete(scoreId);
     }
     
 }
