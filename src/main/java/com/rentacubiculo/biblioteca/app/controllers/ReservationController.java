@@ -5,8 +5,13 @@
  */
 package com.rentacubiculo.biblioteca.app.controllers;
 
+import com.rentacubiculo.biblioteca.app.entities.Client;
+import com.rentacubiculo.biblioteca.app.services.ClientService;
 import com.rentacubiculo.biblioteca.app.entities.Reservation;
 import com.rentacubiculo.biblioteca.app.services.ReservationService;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -80,4 +85,32 @@ public class ReservationController {
         service.delete(reservationId);
     }
     
+    /**
+     * reporte por fechas
+     * @param startDate
+     * @param devolutionDate
+     * @return
+     * @throws ParseException 
+     */
+    @GetMapping("/report-dates/{startDate}/{devolutionDate}")
+    public List<Reservation> getReportDates(@PathVariable("startDate") String startDate, @PathVariable("devolutionDate") String devolutionDate) throws ParseException{
+        return service.getReportDates(startDate, devolutionDate);
+    }
+    
+    /**
+     *
+     * @return
+     */
+    
+    @GetMapping("/report-status")   
+    public HashMap <String, Integer> getReservationStatus(){
+        return service.getReservationStatus();
+    }
+    
+    @Autowired
+    private ClientService services;
+    @GetMapping("/report-clients")   
+    public HashMap <Integer, Client> getReportClients() {
+        return services.getReportClients();
+    }  
 }

@@ -11,6 +11,7 @@ package com.rentacubiculo.biblioteca.app.services;
  */
 import com.rentacubiculo.biblioteca.app.entities.Client;
 import com.rentacubiculo.biblioteca.app.repositories.ClientRepository;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,25 @@ public class ClientService {
     public Optional<Client> getClient(int clientId) {
         return repository.getClient(clientId);
     }
+    
+    //reporte con clientes
+    public HashMap <Integer, Client> getReportClients() {
+        
+        Integer total = 0;
+        List<Client> list = repository.getAll(); 
+        
+        HashMap <Integer, Client> status = new HashMap();
+        
+        for(Client param : list) {
+            total = param.getReservations().size();
+            status.put(total, param);
+        }        
+        return status;
+    }
+    
+    
+    
+    
     
     //Registrar 
     public Client save(Client client){

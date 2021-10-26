@@ -12,6 +12,12 @@ package com.rentacubiculo.biblioteca.app.services;
  */
 import com.rentacubiculo.biblioteca.app.entities.Reservation;
 import com.rentacubiculo.biblioteca.app.repositories.ReservationRepository;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +32,65 @@ public class ReservationService {
     public List<Reservation> getAll(){
         return repository.getAll();
     }
+    
+    
+    /**
+     * Consultar por fechas.
+     * @param startDateURL
+     * @param devolutionDateURL
+     * @return
+     * @throws ParseException 
+     */
+ 
+    public List<Reservation> getReportDates(String startDateURL, String devolutionDateURL) throws ParseException{ 
+        
+        //convertir string a Calendar
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = sdf.parse(startDateURL);
+        Date dateEnd = sdf.parse(devolutionDateURL);
+        Calendar startDateCalendar = Calendar.getInstance();
+        Calendar devolutionDateCalendar = Calendar.getInstance();
+        startDateCalendar.setTime(date);
+        devolutionDateCalendar.setTime(dateEnd);
+        
+        
+        List<Reservation> list = repository.getAll();        
+        List<Reservation> filter = new ArrayList<Reservation>();
+        for(Reservation param : list) {
+            if (! (devolutionDateCalendar.before(param.getStartDate()) || startDateCalendar.after(param.getDevolutionDate()))) {
+                    filter.add(param);
+                }
+        }
+        return filter;
+    }
+    
+    /**
+     * estado de reservaciones canceladas y completas
+     * @return 
+     */
+    
+    public HashMap <String, Integer> getReservationStatus(){
+        
+        Integer completed = 0;
+        Integer cancelled = 0;
+        
+        List<Reservation> list = repository.getAll();        
+        HashMap <String, Integer> status = new HashMap(); 
+        
+        for(Reservation param : list) {
+            if ("completed".equals(param.getStatus())) {
+                    completed++;
+                }
+            if ("cancelled".equals(param.getStatus())) {
+                    cancelled++;
+                }
+        }       
+        status.put("cancelled", cancelled);
+        status.put("completed", completed);
+        
+        return status;
+    }
+    
     
     //Buscar registro
     public Optional<Reservation> getReservation(int reservationId) {
