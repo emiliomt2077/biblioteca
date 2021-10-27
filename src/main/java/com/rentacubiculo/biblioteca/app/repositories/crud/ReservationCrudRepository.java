@@ -19,8 +19,8 @@ import org.springframework.data.repository.CrudRepository;
 public interface ReservationCrudRepository extends CrudRepository<Reservation,Integer> {
     
     //JPQl
-    //@Query("selesct c.client, COUNT(c.client) from Reservation AS c group by c.client order by COUNT(c.client)")
-    //public List<Object[]> countTotalReservationByClient();
-    //public List<Reservation> findAllByStartDateAfterAndDevolutionDateBefore(Calendar startDate, Calendar devolutionDateBefore);    
-    //public List<Reservation> findAllByStatus(String status);
+    @Query("select c.client, COUNT(c.client) from Reservation AS c group by c.client order by COUNT(c.client)desc")
+    public List<Object[]> countTotalReservationByClient();
+    public List<Reservation> findAllByStartDateAfterAndDevolutionDateBefore(Calendar startDate, Calendar devolutionDate);    
+    public List<Reservation> findAllByStatus(String status);
 }

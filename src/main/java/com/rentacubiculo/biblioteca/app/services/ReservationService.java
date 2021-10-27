@@ -11,6 +11,8 @@ package com.rentacubiculo.biblioteca.app.services;
  * @author unPandicornio
  */
 import com.rentacubiculo.biblioteca.app.entities.Reservation;
+import com.rentacubiculo.biblioteca.app.entities.custom.CountClient;
+import com.rentacubiculo.biblioteca.app.entities.custom.StatusAmount;
 import com.rentacubiculo.biblioteca.app.repositories.ReservationRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,36 +35,6 @@ public class ReservationService {
         return repository.getAll();
     }
     
-    
-    /**
-     * Consultar por fechas.
-     * @param startDateURL
-     * @param devolutionDateURL
-     * @return
-     * @throws ParseException 
-     */
- 
-    public List<Reservation> getReportDates(String startDateURL, String devolutionDateURL) throws ParseException{ 
-        
-        //convertir string a Calendar
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = sdf.parse(startDateURL);
-        Date dateEnd = sdf.parse(devolutionDateURL);
-        Calendar startDateCalendar = Calendar.getInstance();
-        Calendar devolutionDateCalendar = Calendar.getInstance();
-        startDateCalendar.setTime(date);
-        devolutionDateCalendar.setTime(dateEnd);
-        
-        
-        List<Reservation> list = repository.getAll();        
-        List<Reservation> filter = new ArrayList<Reservation>();
-        for(Reservation param : list) {
-            if (! (devolutionDateCalendar.before(param.getStartDate()) || startDateCalendar.after(param.getDevolutionDate()))) {
-                    filter.add(param);
-                }
-        }
-        return filter;
-    }
     
     /**
      * estado de reservaciones canceladas y completas
@@ -146,4 +118,38 @@ public class ReservationService {
         }).orElse(false);
         return aBoolean;
     } 
+    
+    
+    //master class
+    
+    public List<CountClient> getTopClients(){
+        return repository.getTopClients();
+    }
+    
+    public StatusAmount getStatusReport(){
+        List<Reservation> completed=repository.getReservationsByStatus("completed");
+        List<Reservation> cancelled=repository.getReservationsByStatus("cancelled");
+        return new StatusAmount(completed.size(),cancelled.size());
+        
+    }
+    
+    
+    public List<Reservation> getReportDates(String startDateURL, String devolutionDateURL) throws ParseException{ 
+        
+        //convertir string a Calendar
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = sdf.parse(startDateURL);
+        Date dateEnd = sdf.parse(devolutionDateURL);
+        Calendar startDateCalendar = Calendar.getInstance();
+        Calendar devolutionDateCalendar = Calendar.getInstance();
+        startDateCalendar.setTime(date);
+        devolutionDateCalendar.setTime(dateEnd);
+        
+        if(startDateCalendar.before(devolutionDateCalendar)){
+            return repository.getReservationPeriod(startDateCalendar, devolutionDateCalendar);
+        }else{
+            return new ArrayList<>();
+        }
+        
+    }
 }
