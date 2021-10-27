@@ -70,13 +70,13 @@ public class ReservationRepository {
 
         List<Object[]> report=repository.countTotalReservationByClient();
         for(int i=0;i<report.size();i++){
-            /*
+            
             Client cat=(Client) report.get(i)[0];
-            Integer cantidad=(Integer) report.get(i)[1];
+            Integer cantidad=(int) (long) report.get(i)[1];
             CountClient cc=new CountClient(cantidad,cat);
             res.add(cc);
-            */
-            res.add(new CountClient((Integer) report.get(i)[1],(Client)report.get(i)[0] ));
+            
+            //res.add(new CountClient((Integer)report.get(i)[1],(Client)report.get(i)[0] ));
         }
         return res;
     }
