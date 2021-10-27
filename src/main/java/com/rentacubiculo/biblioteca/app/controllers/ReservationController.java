@@ -108,9 +108,12 @@ public class ReservationController {
     }
     
     @Autowired
-    private ClientService services;
+    private ClientService serviceClient;
     @GetMapping("/report-clients")   
-    public HashMap <Integer, Client> getReportClients() {
-        return services.getReportClients();
-    }  
+    //public HashMap <Integer, Client> getReportClients() {
+        //return services.getReportClients();
+    //} 
+    public List<HashMap> getReportClients() {
+        return serviceClient.getReportClients();
+    } 
 }

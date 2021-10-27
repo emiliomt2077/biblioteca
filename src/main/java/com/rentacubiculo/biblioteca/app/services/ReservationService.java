@@ -85,8 +85,9 @@ public class ReservationService {
                     cancelled++;
                 }
         }       
-        status.put("cancelled", cancelled);
+        
         status.put("completed", completed);
+        status.put("cancelled", cancelled);
         
         return status;
     }
